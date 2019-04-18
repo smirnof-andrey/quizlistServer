@@ -1,4 +1,4 @@
-package com.asmirnov.quilzistServer.domain;
+package com.asmirnov.quilzistServer.model;
 
 public class Views {
     public interface Id{};

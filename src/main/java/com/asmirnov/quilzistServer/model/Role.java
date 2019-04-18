@@ -1,4 +1,4 @@
-package com.asmirnov.quilzistServer.domain;
+package com.asmirnov.quilzistServer.model;
 
 import org.springframework.security.core.GrantedAuthority;
 

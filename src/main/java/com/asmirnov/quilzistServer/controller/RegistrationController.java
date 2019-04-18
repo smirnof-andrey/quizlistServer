@@ -1,7 +1,7 @@
 package com.asmirnov.quilzistServer.controller;
 
-import com.asmirnov.quilzistServer.domain.Role;
-import com.asmirnov.quilzistServer.domain.User;
+import com.asmirnov.quilzistServer.model.Role;
+import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

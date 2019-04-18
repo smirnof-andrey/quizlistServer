@@ -1,8 +1,8 @@
 package com.asmirnov.quilzistServer.controller;
 
-import com.asmirnov.quilzistServer.domain.Module;
-import com.asmirnov.quilzistServer.domain.User;
-import com.asmirnov.quilzistServer.domain.Views;
+import com.asmirnov.quilzistServer.model.Module;
+import com.asmirnov.quilzistServer.model.User;
+import com.asmirnov.quilzistServer.model.Views;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.fasterxml.jackson.annotation.JsonView;

@@ -1,7 +1,7 @@
 package com.asmirnov.quilzistServer.controller;
 
-import com.asmirnov.quilzistServer.domain.Module;
-import com.asmirnov.quilzistServer.domain.User;
+import com.asmirnov.quilzistServer.model.Module;
+import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

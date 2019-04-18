@@ -1,7 +1,7 @@
 package com.asmirnov.quilzistServer.repository;
 
-import com.asmirnov.quilzistServer.domain.Module;
-import com.asmirnov.quilzistServer.domain.User;
+import com.asmirnov.quilzistServer.model.Module;
+import com.asmirnov.quilzistServer.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 <body>
 <div>=Quizlist service=</div>
 <div>
-    You login as: {{currentUsername}}
+    You login as: {{currentUsername}}, (roles: {{roles}})
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />

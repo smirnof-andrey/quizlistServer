@@ -1,13 +1,9 @@
 package com.asmirnov.quilzistServer.security;
 
-import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;

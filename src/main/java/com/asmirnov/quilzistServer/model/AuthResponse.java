@@ -1,11 +1,7 @@
 package com.asmirnov.quilzistServer.model;
 
-import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.asmirnov.quilzistServer.service.TokenHandler;
 import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

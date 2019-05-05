@@ -6,12 +6,15 @@ import com.asmirnov.quilzistServer.model.Views;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("module")
 public class MyRestController {
 
     @Autowired
@@ -20,34 +23,40 @@ public class MyRestController {
     @Autowired
     private ModuleRepo moduleRepo;
 
-//    @GetMapping("/userModules")
-//    @JsonView(Views.Info.class)
-//    public List<Module> userModules(@RequestParam(value="user_id", defaultValue="21") Long user_id) {
-//        User user = userRepo.findById((Long) user_id).get();
-//        return moduleRepo.findByAuthor(user);
-//    }
-
-    @GetMapping("/getUserModules/{id}")
+    @GetMapping
     @JsonView(Views.Info.class)
-    public List<Module> getUserModules(@PathVariable("id") User user) {
+    public List<Module> getUserModules() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return moduleRepo.findByAuthor(user);
     }
 
-    @PostMapping("/createModule")
+    @GetMapping("{id}")
+    @JsonView(Views.Info.class)
+    public Module getModuleById(@PathVariable("id") Module module) {
+        return module;
+    }
+
+    @DeleteMapping("{id}")
+    @JsonView(Views.Info.class)
+    public void deleteModule(@PathVariable("id") Module module){
+        moduleRepo.delete(module);
+    }
+
+    @PostMapping
     public Module createModule(@RequestBody Module module) {
+        //if (module.getAuthor() == null){
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            module.setAuthor(user);
+        //}
         return moduleRepo.save(module);
     }
 
-//    @PutMapping("{id}")
-//    public Module updateModule(
-//            @PathVariable("id") Module moduleFromDB,
-//            @RequestBody Module module){
-//        BeanUtils.copyProperties(module,moduleFromDB,"id");
-//        return moduleRepo.save(moduleFromDB);
-//    }
-//
-//    @DeleteMapping("{id}")
-//    public void deleteModule(@PathVariable("id") Module module){
-//        moduleRepo.delete(module);
-//    }
+    @PutMapping("{id}")
+    public Module updateModule(
+            @PathVariable("id") Module moduleFromDB,
+            @RequestBody Module module){
+        BeanUtils.copyProperties(module,moduleFromDB,"id","author");
+        return moduleRepo.save(moduleFromDB);
+    }
+
 }

@@ -9,6 +9,7 @@ public class Module {
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
+    @Column(name = "id")
     @JsonView(Views.Id.class)
     private Integer id;
 

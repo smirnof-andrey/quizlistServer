@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -25,9 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(new AuthenticationUserFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(new AuthenticationUserFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers("/","/registration","/auth").permitAll()
+                    .antMatchers("/","/registration","/auth","/module","/module/*").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -35,7 +36,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
                 .and()
                     .logout()
-                    .permitAll();
+                    .permitAll()
+        .and()
+            .csrf().disable()
+//            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+        ;
     }
 
     @Override

@@ -1,5 +1,5 @@
 package com.asmirnov.quilzistServer.model;
 
-public class AuthViews {
-    public interface AuthInfo{};
+public final class AuthViews {
+    public interface AuthInfo{}
 }

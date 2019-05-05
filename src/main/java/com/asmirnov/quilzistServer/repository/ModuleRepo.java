@@ -10,5 +10,6 @@ public interface ModuleRepo extends CrudRepository<Module, Integer> {
     List<Module> findByInfoLike(String info);
     List<Module> findByAuthor(User author);
     List<Module> findByAuthorAndName(User author, String name);
+    List<Module> findAll();
 
 }

@@ -28,7 +28,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 //.addFilterBefore(new AuthenticationUserFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                    .antMatchers("/","/registration","/auth","/module","/module/*").permitAll()
+                    .antMatchers("/","/registration","/auth","/module","/module/*","/cards","/cards/*").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()

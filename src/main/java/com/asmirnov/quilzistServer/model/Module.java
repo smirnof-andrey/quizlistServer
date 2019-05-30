@@ -68,4 +68,30 @@ public class Module {
     public void setAuthor(User author) {
         this.author = author;
     }
+
+    @Override
+    public String toString() {
+        return "{id: "+id+"name:"+name+",info:"+info+"}";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj == null || obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Module moduleObj = (Module) obj;
+
+        return this.id == moduleObj.getId()
+                && author.getId() == moduleObj.getAuthor().getId()
+
+                && (name == moduleObj.getName()
+                || (name != null && name.equals(moduleObj.getName())))
+
+                && (info == moduleObj.getInfo()
+                || (info != null && info.equals(moduleObj.getInfo())));
+    }
 }

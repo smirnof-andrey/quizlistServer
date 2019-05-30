@@ -1,8 +1,10 @@
 package com.asmirnov.quilzistServer.controller;
 
+import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.model.Views;
+import com.asmirnov.quilzistServer.repository.CardRepo;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -15,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("module")
-public class MyRestController {
+public class ModuleRestController {
 
     @Autowired
     private UserRepo userRepo;
@@ -23,15 +25,18 @@ public class MyRestController {
     @Autowired
     private ModuleRepo moduleRepo;
 
+    @Autowired
+    private CardRepo cardRepo;
+
     @GetMapping
-    @JsonView(Views.Info.class)
+    //@JsonView(Views.FullData.class)
     public List<Module> getUserModules() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return moduleRepo.findByAuthor(user);
     }
 
     @GetMapping("{id}")
-    @JsonView(Views.Info.class)
+    //@JsonView(Views.FullData.class)
     public Module getModuleById(@PathVariable("id") Module module) {
         return module;
     }
@@ -39,6 +44,8 @@ public class MyRestController {
     @DeleteMapping("{id}")
     @JsonView(Views.Info.class)
     public void deleteModule(@PathVariable("id") Module module){
+        List<Card> cardList = cardRepo.findByModule(module);
+        cardRepo.deleteAll(cardList);
         moduleRepo.delete(module);
     }
 
@@ -59,4 +66,9 @@ public class MyRestController {
         return moduleRepo.save(moduleFromDB);
     }
 
+//    @GetMapping("{id}/cards")
+//    //@JsonView(Views.FullData.class)
+//    public List<Card> getCardsByModule(@PathVariable("id") Module module) {
+//        return cardRepo.findByModule(module);
+//    }
 }

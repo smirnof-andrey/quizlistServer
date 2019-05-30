@@ -23,7 +23,7 @@ public class AuthController {
     private UserRepo userRepo;
 
     @GetMapping("/auth")
-    @JsonView(AuthViews.AuthInfo.class)
+   // @JsonView(AuthViews.AuthInfo.class)
     public AuthResponse getToken(@RequestParam String username, @RequestParam String password ) {
 
         User user=null;

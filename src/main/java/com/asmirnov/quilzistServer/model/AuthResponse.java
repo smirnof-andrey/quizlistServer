@@ -16,6 +16,7 @@ public class AuthResponse {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer id;
 
+    @JsonView(AuthViews.AuthInfo.class)
     private User user;
 
     @JsonView(AuthViews.AuthInfo.class)

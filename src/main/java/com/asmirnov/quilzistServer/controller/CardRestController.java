@@ -107,7 +107,7 @@ public class CardRestController {
         }
         List cardsToDelete = cardRepo.findByModule(module);
         cardsToDelete.removeAll(cardsList);
-//        cardRepo.deleteAll(cardsToDelete);
+        cardRepo.deleteAll(cardsToDelete);
     }
 
 

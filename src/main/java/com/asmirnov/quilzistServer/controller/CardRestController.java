@@ -39,6 +39,7 @@ public class CardRestController {
         return cardRepo.findByModule(module);
     }
 
+
     @PostMapping("{id}")
     public Card createCard(@PathVariable("id") Module module, @RequestBody Card card) {
         card.setModule(module);
@@ -46,18 +47,51 @@ public class CardRestController {
         return cardRepo.save(card);
     }
 
+    @PostMapping
+    public String careateModuleCards(@RequestBody Map<String, Object> map){
+
+        String errorMessage = "";
+
+        ObjectMapper mapper = new ObjectMapper();
+        Module module;
+        List<Card> cardsList;
+
+        try {
+            module = mapper.convertValue(map.get("module"), Module.class);
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            module.setAuthor(user);
+            module = moduleRepo.save(module);
+        }catch(Exception e){
+            e.printStackTrace();
+            errorMessage = e.getMessage();
+            return errorMessage;
+        }
+
+        try {
+            cardsList = mapper.convertValue(map.get("cardsList"), new TypeReference<List<Card>>(){});
+
+            for (Card card : cardsList) {
+                Card newCard = createCard(module,card);
+                card.setId(newCard.getId());
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            errorMessage = e.getMessage();
+        }
+        return errorMessage;
+    }
+
+
     @PutMapping("card/{id}")
-    public Card updateCard(
-            @PathVariable("id") Card cardFromDB,
-            @RequestBody Card card){
+    public Card updateCard(@PathVariable("id") Card cardFromDB, @RequestBody Card card){
         BeanUtils.copyProperties(card,cardFromDB,"id");
         return cardRepo.save(cardFromDB);
     }
 
     @PutMapping("{id}")
-    public Module updateModuleCards(
-            @PathVariable("id") Module moduleFromDB,
-            @RequestBody Map<String, Object> map){
+    public String updateModuleCards(@PathVariable("id") Module moduleFromDB, @RequestBody Map<String, Object> map){
+
+        String errorMessage = "";
 
         ObjectMapper mapper = new ObjectMapper();
         Module module;
@@ -72,7 +106,8 @@ public class CardRestController {
             }
         }catch(Exception e){
             e.printStackTrace();
-            module = new Module("new module","info1",new User());
+            errorMessage =e.getMessage();
+            return errorMessage;
         }
 
         try {
@@ -83,16 +118,14 @@ public class CardRestController {
 
         }catch(Exception e){
             e.printStackTrace();
+            errorMessage =e.getMessage();
         }
-
-        return module;
+        return errorMessage;
     }
 
     private void updateCards(Module module, List<Card> cardsList) {
 
         Card cardFromDB;
-        List cardsToUpadate = new ArrayList<Card>();
-        List cardsToCreate = new ArrayList<Card>();
 
         for (Card card : cardsList) {
             int cardId = card.getId();
@@ -102,7 +135,8 @@ public class CardRestController {
                     updateCard(cardFromDB,card);
                 }
             }else{
-//                createCard(module,card);
+                Card newCard = createCard(module,card);
+                card.setId(newCard.getId());
             }
         }
         List cardsToDelete = cardRepo.findByModule(module);

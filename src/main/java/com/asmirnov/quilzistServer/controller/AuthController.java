@@ -1,17 +1,13 @@
 package com.asmirnov.quilzistServer.controller;
 
-import com.asmirnov.quilzistServer.model.AuthViews;
-import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.model.Views;
+import com.asmirnov.quilzistServer.model.*;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
-import com.asmirnov.quilzistServer.model.AuthResponse;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class AuthController {
@@ -37,5 +33,27 @@ public class AuthController {
         AuthResponse authResponse = new AuthResponse(user);
 
         return authResponse;
+    }
+
+    @PostMapping("/newUser")
+    public Map<String, Object> createModule(@RequestBody User user) {
+
+        Map<String, Object> model = new HashMap<>();
+        model.put("errorCode",0);
+
+        User userFromDb = userRepo.findByUsername(user.getUsername());
+
+        if(userFromDb != null){
+            // User exists
+            model.put("errorCode",1);
+            return model;
+        }
+
+        user.setActive(true);
+        user.setRoles(Collections.singleton(Role.USER));
+        userRepo.save(user);
+        model.put("newUser",user);
+
+        return model;
     }
 }

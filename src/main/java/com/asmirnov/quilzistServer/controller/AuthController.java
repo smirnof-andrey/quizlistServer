@@ -36,24 +36,20 @@ public class AuthController {
     }
 
     @PostMapping("/newUser")
-    public Map<String, Object> createModule(@RequestBody User user) {
+    public AuthResponse createModule(@RequestBody User user) {
 
-        Map<String, Object> model = new HashMap<>();
-        model.put("errorCode",0);
+        AuthResponse authResponse;
 
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
-        if(userFromDb != null){
-            // User exists
-            model.put("errorCode",1);
-            return model;
+        if(userFromDb == null){
+            user.setActive(true);
+            user.setRoles(Collections.singleton(Role.USER));
+            authResponse = new AuthResponse(userRepo.save(user));
+        }else {
+            authResponse = new AuthResponse(3,"This user exists");
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-        model.put("newUser",user);
-
-        return model;
+        return authResponse;
     }
 }

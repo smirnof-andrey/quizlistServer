@@ -23,10 +23,10 @@ public class AuthResponse {
     private String token;
 
     @JsonView(AuthViews.AuthInfo.class)
-    private String message;
+    private int errorCode;    // 0 - success, 1 - user not found, 2 - token generate is fall, 3 - user exists (registration)
 
     @JsonView(AuthViews.AuthInfo.class)
-    private int errorCode;    // 0 - user is found, 1 - user not found, 2 - token generate is fall
+    private String message;
 
     public AuthResponse() {
     }
@@ -37,7 +37,7 @@ public class AuthResponse {
 
         if(this.user == null){
             this.errorCode = 1;
-            this.message = "user is not found";
+            this.message = "incorrect user/password";
         }else{
             TokenHandler tokenHandler = new TokenHandler();
             this.token = tokenHandler.generateAccessToken(user.getId(), LocalDateTime.now().plusDays(1));
@@ -49,6 +49,10 @@ public class AuthResponse {
                 this.message = this.user.getUsername();
             }
         }
+    }
 
+    public AuthResponse(int errorCode, String message) {
+        this.errorCode = errorCode;
+        this.message = message;
     }
 }

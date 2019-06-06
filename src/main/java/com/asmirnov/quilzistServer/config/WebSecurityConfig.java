@@ -26,16 +26,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //.addFilterBefore(new AuthenticationUserFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new AuthenticationUserFilter(tokenAuthService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/",
                             "/registration",
                             "/auth",
-                            "/newUser",
-                            "/module",
-                            "/module/*",
-                            "/cards",
-                            "/cards/*").permitAll()
+                            "/newUser").permitAll()
                     .anyRequest().authenticated()
                 .and()
                     .formLogin()
@@ -46,7 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .permitAll()
         .and()
             .csrf().disable()
-//            .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         ;
     }
 

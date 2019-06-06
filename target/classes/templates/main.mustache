@@ -5,7 +5,7 @@
     You login as: {{currentUsername}}, (roles: {{roles}})
     <form action="/logout" method="post">
         <input type="submit" value="Sign Out"/>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        {{! <input type="hidden" name="_csrf" value="{{_csrf.token}}" />}}
     </form>
 </div>
 <div> </div>
@@ -14,7 +14,7 @@
     <form method="post" action="main">
         <input type="text" name="name" placeholder="Module name:">
         <input type="text" name="info" placeholder="Module info:">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        {{!<input type="hidden" name="_csrf" value="{{_csrf.token}}" />}}
         <button type="submit">Create module</button>
     </form>
 </div>
@@ -22,7 +22,7 @@
 <div>Your modules</div>
 <form method="post" action="filter">
     <input type="text" name="filter">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+    {{!<input type="hidden" name="_csrf" value="{{_csrf.token}}" />}}
     <button type="submit">Search</button>
 </form>
 {{#modules}}

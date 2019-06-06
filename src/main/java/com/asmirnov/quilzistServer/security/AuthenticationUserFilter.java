@@ -14,17 +14,6 @@ import java.io.IOException;
 @Component
 public class AuthenticationUserFilter extends GenericFilterBean {
 
-//    @Autowired
-//    private UserService userService;
-//
-//    private User user;
-//
-//    @PostConstruct
-//    public void init(){
-//        // just hardcode for test
-//        user = (User)userService.loadUserByUsername("Vasya");
-//    }
-
     private final TokenAuthService tokenAuthService;
 
     public AuthenticationUserFilter(TokenAuthService tokenAuthService) {

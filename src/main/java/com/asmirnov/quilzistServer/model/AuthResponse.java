@@ -40,7 +40,7 @@ public class AuthResponse {
             this.message = "incorrect user/password";
         }else{
             TokenHandler tokenHandler = new TokenHandler();
-            this.token = tokenHandler.generateAccessToken(user.getId(), LocalDateTime.now().plusDays(1));
+            this.token = tokenHandler.generateAccessToken(user.getId(), LocalDateTime.now().plusMinutes(5));
             if (this.token == null || this.token.isEmpty()){
                 this.errorCode = 2;
                 this.message = "token generate error";

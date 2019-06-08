@@ -3,23 +3,21 @@ package com.asmirnov.quilzistServer.controller;
 import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.model.Views;
 import com.asmirnov.quilzistServer.repository.CardRepo;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("cards")
 public class CardRestController {
@@ -43,8 +41,9 @@ public class CardRestController {
     @PostMapping("{id}")
     public Card createCard(@PathVariable("id") Module module, @RequestBody Card card) {
         card.setModule(module);
-        card.setId(1);  // bad hardcode fix( I have to solve this problem later
-        return cardRepo.save(card);
+        Card newCard = cardRepo.save(card);
+        log.debug("create new card: {}",newCard.toString());
+        return newCard;
     }
 
     @PostMapping
@@ -59,8 +58,13 @@ public class CardRestController {
         try {
             module = mapper.convertValue(map.get("module"), Module.class);
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            module.setAuthor(user);
-            module = moduleRepo.save(module);
+            if(moduleRepo.findByAuthorAndName(user, module.getName()).isEmpty()){
+                module.setAuthor(user);
+                module = moduleRepo.save(module);
+                log.debug("create new: {}",module);
+            }else{
+                return "module is exist";
+            }
         }catch(Exception e){
             e.printStackTrace();
             errorMessage = e.getMessage();

@@ -2,6 +2,7 @@ package com.asmirnov.quilzistServer.model;
 
 import com.asmirnov.quilzistServer.service.TokenHandler;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
 public class AuthResponse {
 
     @Id
@@ -28,9 +30,6 @@ public class AuthResponse {
     @JsonView(AuthViews.AuthInfo.class)
     private String message;
 
-    public AuthResponse() {
-    }
-
     public AuthResponse(User user) {
 
         this.user = user;
@@ -40,7 +39,7 @@ public class AuthResponse {
             this.message = "incorrect user/password";
         }else{
             TokenHandler tokenHandler = new TokenHandler();
-            this.token = tokenHandler.generateAccessToken(user.getId(), LocalDateTime.now().plusMinutes(5));
+            this.token = tokenHandler.generateAccessToken(user.getId(), LocalDateTime.now().plusMinutes(30));
             if (this.token == null || this.token.isEmpty()){
                 this.errorCode = 2;
                 this.message = "token generate error";

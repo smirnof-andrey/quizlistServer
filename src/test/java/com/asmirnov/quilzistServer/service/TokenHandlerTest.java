@@ -1,11 +1,10 @@
 package com.asmirnov.quilzistServer.service;
 
+import com.asmirnov.quilzistServer.security.TokenHandler;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
-
-import static org.junit.Assert.*;
 
 public class TokenHandlerTest {
     @Test

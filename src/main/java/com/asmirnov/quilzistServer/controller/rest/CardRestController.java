@@ -1,11 +1,13 @@
-package com.asmirnov.quilzistServer.controller;
+package com.asmirnov.quilzistServer.controller.rest;
 
 import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.repository.CardRepo;
+import com.asmirnov.quilzistServer.repository.ModuleAdditionalInfoRepo;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
+import com.asmirnov.quilzistServer.service.ModuleDataService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,9 @@ public class CardRestController {
     @Autowired
     private CardRepo cardRepo;
 
+    @Autowired
+    private ModuleAdditionalInfoRepo maiRepo;
+
     @GetMapping("{id}")
     //@JsonView(Views.FullData.class)
     public List<Card> getCardsByModule(@PathVariable("id") Module module) {
@@ -47,7 +52,7 @@ public class CardRestController {
     }
 
     @PostMapping
-    public String careateModuleCards(@RequestBody Map<String, Object> map){
+    public String createModuleCards(@RequestBody Map<String, Object> map){
 
         String errorMessage = "";
 
@@ -146,6 +151,8 @@ public class CardRestController {
         List cardsToDelete = cardRepo.findByModule(module);
         cardsToDelete.removeAll(cardsList);
         cardRepo.deleteAll(cardsToDelete);
+
+        new ModuleDataService(module, cardRepo, maiRepo).updateModuleInfoItemsCount();
     }
 
 

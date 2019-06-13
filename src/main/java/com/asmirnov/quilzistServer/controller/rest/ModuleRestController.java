@@ -1,9 +1,9 @@
-package com.asmirnov.quilzistServer.controller;
+package com.asmirnov.quilzistServer.controller.rest;
 
 import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.model.Views;
+import com.asmirnov.quilzistServer.Views;
 import com.asmirnov.quilzistServer.repository.CardRepo;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;

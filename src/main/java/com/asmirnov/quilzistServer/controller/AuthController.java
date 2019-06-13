@@ -1,9 +1,9 @@
 package com.asmirnov.quilzistServer.controller;
 
+import com.asmirnov.quilzistServer.dto.AuthResponse;
 import com.asmirnov.quilzistServer.model.*;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +19,6 @@ public class AuthController {
     private UserRepo userRepo;
 
     @GetMapping("/auth")
-   // @JsonView(AuthViews.AuthInfo.class)
     public AuthResponse getToken(@RequestParam String username, @RequestParam String password ) {
 
         User user=null;

@@ -1,5 +1,6 @@
 package com.asmirnov.quilzistServer.model;
 
+import com.asmirnov.quilzistServer.Views;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.*;
 
@@ -10,7 +11,6 @@ import javax.persistence.*;
 @Setter
 @ToString
 @NoArgsConstructor
-@RequiredArgsConstructor
 @EqualsAndHashCode(exclude={"author"})
 public class Module {
     @Id
@@ -32,4 +32,10 @@ public class Module {
     @JoinColumn(name="user_id")
     @JsonView(Views.FullData.class)
     private User author;
+
+    public Module(String name, String info, User author) {
+        this.name = name;
+        this.info = info;
+        this.author = author;
+    }
 }

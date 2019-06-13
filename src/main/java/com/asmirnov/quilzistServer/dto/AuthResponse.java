@@ -1,22 +1,13 @@
-package com.asmirnov.quilzistServer.model;
+package com.asmirnov.quilzistServer.dto;
 
-import com.asmirnov.quilzistServer.service.TokenHandler;
+import com.asmirnov.quilzistServer.AuthViews;
+import com.asmirnov.quilzistServer.model.User;
+import com.asmirnov.quilzistServer.security.TokenHandler;
 import com.fasterxml.jackson.annotation.JsonView;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
-@NoArgsConstructor
 public class AuthResponse {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Integer id;
 
     @JsonView(AuthViews.AuthInfo.class)
     private User user;
@@ -24,8 +15,14 @@ public class AuthResponse {
     @JsonView(AuthViews.AuthInfo.class)
     private String token;
 
+    // errorCode:
+    // 0 - success,
+    // 1 - user not found,
+    // 2 - token generate is fall,
+    // 3 - user exists (registration)
+
     @JsonView(AuthViews.AuthInfo.class)
-    private int errorCode;    // 0 - success, 1 - user not found, 2 - token generate is fall, 3 - user exists (registration)
+    private int errorCode;
 
     @JsonView(AuthViews.AuthInfo.class)
     private String message;
@@ -50,8 +47,28 @@ public class AuthResponse {
         }
     }
 
+    public AuthResponse(int errorCode) {
+        this(errorCode, "");
+    }
+
     public AuthResponse(int errorCode, String message) {
         this.errorCode = errorCode;
-        this.message = message;
+        if(message.isEmpty()){
+            switch(errorCode) {
+                case 0:
+                    message = "success";
+                    break;
+                case 1:
+                    message = "user not found";
+                    break;
+                case 2:
+                    message = "token generate is fall";
+                    break;
+                case 3:
+                    message = "This user exists";
+                    break;
+            }
+            this.message = message;
+        }
     }
 }

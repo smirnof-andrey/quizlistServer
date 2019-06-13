@@ -1,4 +1,4 @@
-package com.asmirnov.quilzistServer.service;
+package com.asmirnov.quilzistServer.security;
 
 import com.google.common.io.BaseEncoding;
 import io.jsonwebtoken.Claims;

@@ -1,6 +1,5 @@
 package com.asmirnov.quilzistServer.security;
 
-import com.asmirnov.quilzistServer.service.TokenHandler;
 import com.asmirnov.quilzistServer.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;

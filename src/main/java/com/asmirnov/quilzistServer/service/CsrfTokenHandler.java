@@ -2,8 +2,8 @@ package com.asmirnov.quilzistServer.service;
 
 import org.springframework.security.web.csrf.CsrfToken;
 
-public class CSRF_TokenHandler {
-    public CSRF_TokenHandler() {
+public class CsrfTokenHandler {
+    public CsrfTokenHandler() {
         CsrfToken csrfToken = new CsrfToken() {
             @Override
             public String getHeaderName() {

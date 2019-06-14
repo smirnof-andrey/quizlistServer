@@ -83,6 +83,7 @@ public class CardRestController {
                 Card newCard = createCard(module,card);
                 card.setId(newCard.getId());
             }
+            new ModuleDataService(module, cardRepo, maiRepo).updateModuleInfoItemsCount();
         }catch(Exception e){
             e.printStackTrace();
             errorMessage = e.getMessage();

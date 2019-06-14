@@ -2,12 +2,15 @@ package com.asmirnov.quilzistServer.controller.rest;
 
 import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
+import com.asmirnov.quilzistServer.model.ModuleAdditionalInfo;
 import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.Views;
 import com.asmirnov.quilzistServer.repository.CardRepo;
+import com.asmirnov.quilzistServer.repository.ModuleAdditionalInfoRepo;
 import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,12 +31,24 @@ public class ModuleRestController {
     @Autowired
     private CardRepo cardRepo;
 
+    @Autowired
+    private ModuleAdditionalInfoRepo maiRepo;
+
     @GetMapping
     //@JsonView(Views.FullData.class)
-    public List<Module> getUserModules() {
+    public List<ModuleAdditionalInfo> getUserModules() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return moduleRepo.findByAuthor(user);
+        List<Module> moduleList = moduleRepo.findByAuthor(user);
+        List<ModuleAdditionalInfo> mai = maiRepo.findByModuleList(moduleList);
+        return mai;
     }
+
+//    @GetMapping
+//    //@JsonView(Views.FullData.class)
+//    public List<Module> getUserModules() {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return moduleRepo.findByAuthor(user);
+//    }
 
     @GetMapping("{id}")
     //@JsonView(Views.FullData.class)

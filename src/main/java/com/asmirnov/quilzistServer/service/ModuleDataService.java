@@ -4,6 +4,7 @@ import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.ModuleAdditionalInfo;
 import com.asmirnov.quilzistServer.repository.CardRepo;
 import com.asmirnov.quilzistServer.repository.ModuleAdditionalInfoRepo;
+import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,4 +35,5 @@ public class ModuleDataService {
         additionalInfo.setItemsCount(Math.toIntExact(cardRepo.findByModule(module).size()));
         maiRepo.save(additionalInfo);
     }
+
 }

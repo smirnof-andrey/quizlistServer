@@ -20,7 +20,6 @@ public class TokenHandler {
     private final SecretKey secretKey;
 
     public TokenHandler() {
-
         String jwtKey = "quizlisSecretStr";
         byte[] decodedKey = BaseEncoding.base64().decode(jwtKey);
         secretKey = new SecretKeySpec(decodedKey,0,decodedKey.length,"AES");
@@ -36,7 +35,6 @@ public class TokenHandler {
         }catch(RuntimeException e){
             return Optional.empty();
         }
-
     }
 
     public String generateAccessToken(Long id, LocalDateTime expires) {

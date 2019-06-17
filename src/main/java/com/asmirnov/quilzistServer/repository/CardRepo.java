@@ -2,7 +2,6 @@ package com.asmirnov.quilzistServer.repository;
 
 import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
-import com.asmirnov.quilzistServer.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

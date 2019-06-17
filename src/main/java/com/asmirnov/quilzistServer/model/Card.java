@@ -26,4 +26,5 @@ public class Card {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="module_id")
     private Module module;
+
 }

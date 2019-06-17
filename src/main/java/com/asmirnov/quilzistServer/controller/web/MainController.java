@@ -1,4 +1,4 @@
-package com.asmirnov.quilzistServer.controller;
+package com.asmirnov.quilzistServer.controller.web;
 
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.User;
@@ -6,7 +6,6 @@ import com.asmirnov.quilzistServer.repository.ModuleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -75,7 +74,6 @@ public class MainController {
         else{
             modules = moduleRepo.findByAuthor(user);
         }
-
         model.put("modules",modules);
 
     }

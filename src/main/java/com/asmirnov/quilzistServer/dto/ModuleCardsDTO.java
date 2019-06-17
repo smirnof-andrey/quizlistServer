@@ -1,29 +1,24 @@
 package com.asmirnov.quilzistServer.dto;
 
-import com.asmirnov.quilzistServer.AuthViews;
-import com.asmirnov.quilzistServer.model.User;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.asmirnov.quilzistServer.model.Card;
+import com.asmirnov.quilzistServer.model.Module;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {"token"})
-public class AuthResponseDTO {
+@ToString()
+public class ModuleCardsDTO {
+    private Module module;
+    private Card card;
+    private List<Card> cardList;
 
-    @JsonView(AuthViews.AuthInfo.class)
-    private User user;
-
-    @JsonView(AuthViews.AuthInfo.class)
-    private String token;
-
-    @JsonView(AuthViews.AuthInfo.class)
     private int responseCode;
-
-    @JsonView(AuthViews.AuthInfo.class)
     private String message;
 
     public void setResponseCode(int responseCode) {
@@ -37,18 +32,25 @@ public class AuthResponseDTO {
                 case 0:
                     message = "success";
                     break;
-                case 1:
-                    message = "incorrect user or password";
+                case 11:
+                    message = "Such module is exist";
                     break;
-                case 2:
-                    message = "token generate error";
+                case 12:
+                    message = "";
                     break;
-                case 3:
-                    message = "This user is exists";
+                case 13:
+                    message = "";
                     break;
             }
             this.message = message;
         }
     }
 
+    public String getErrorInfo(){
+        if(responseCode == 0){
+            return "";
+        }else{
+            return "error code="+responseCode+"("+message+")";
+        }
+    }
 }

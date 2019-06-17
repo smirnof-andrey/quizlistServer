@@ -1,19 +1,8 @@
 package com.asmirnov.quilzistServer.controller.rest;
 
-import com.asmirnov.quilzistServer.model.Card;
 import com.asmirnov.quilzistServer.model.Module;
 import com.asmirnov.quilzistServer.model.ModuleAdditionalInfo;
-import com.asmirnov.quilzistServer.model.User;
-import com.asmirnov.quilzistServer.Views;
-import com.asmirnov.quilzistServer.repository.CardRepo;
-import com.asmirnov.quilzistServer.repository.ModuleAdditionalInfoRepo;
-import com.asmirnov.quilzistServer.repository.ModuleRepo;
-import com.asmirnov.quilzistServer.repository.UserRepo;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.asmirnov.quilzistServer.service.ModuleCardRestService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,68 +11,36 @@ import java.util.List;
 @RequestMapping("module")
 public class ModuleRestController {
 
-    @Autowired
-    private UserRepo userRepo;
+    private final ModuleCardRestService mcRestService;
 
-    @Autowired
-    private ModuleRepo moduleRepo;
-
-    @Autowired
-    private CardRepo cardRepo;
-
-    @Autowired
-    private ModuleAdditionalInfoRepo maiRepo;
-
-    @GetMapping
-    //@JsonView(Views.FullData.class)
-    public List<ModuleAdditionalInfo> getUserModules() {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Module> moduleList = moduleRepo.findByAuthor(user);
-        List<ModuleAdditionalInfo> mai = maiRepo.findByModuleList(moduleList);
-        return mai;
+    public ModuleRestController(ModuleCardRestService mcRestService) {
+        this.mcRestService = mcRestService;
     }
 
-//    @GetMapping
-//    //@JsonView(Views.FullData.class)
-//    public List<Module> getUserModules() {
-//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return moduleRepo.findByAuthor(user);
-//    }
+    @GetMapping
+    public List<ModuleAdditionalInfo> getUserModules() {
+        return mcRestService.getUserModules();
+    }
 
     @GetMapping("{id}")
-    //@JsonView(Views.FullData.class)
     public Module getModuleById(@PathVariable("id") Module module) {
         return module;
     }
 
-    @DeleteMapping("{id}")
-    @JsonView(Views.Info.class)
-    public void deleteModule(@PathVariable("id") Module module){
-        List<Card> cardList = cardRepo.findByModule(module);
-        cardRepo.deleteAll(cardList);
-        moduleRepo.delete(module);
-    }
-
     @PostMapping
     public Module createModule(@RequestBody Module module) {
-        //if (module.getAuthor() == null){
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            module.setAuthor(user);
-        //}
-        return moduleRepo.save(module);
+        return mcRestService.createModule(module);
     }
 
     @PutMapping("{id}")
-    public Module updateModule(
-            @PathVariable("id") Module moduleFromDB,
+    public Module updateModule(@PathVariable("id") Module moduleFromDB,
             @RequestBody Module module){
-        BeanUtils.copyProperties(module,moduleFromDB,"id","author");
-        return moduleRepo.save(moduleFromDB);
+        return mcRestService.updateModule(moduleFromDB,module);
     }
 
-//    @GetMapping("{id}/cards")
-//    //@JsonView(Views.FullData.class)
-//    public List<Card> getCardsByModule(@PathVariable("id") Module module) {
-//        return cardRepo.findByModule(module);
-//    }
+    @DeleteMapping("{id}")
+    public void deleteModule(@PathVariable("id") Module module){
+        mcRestService.deleteModule(module);
+    }
+
 }

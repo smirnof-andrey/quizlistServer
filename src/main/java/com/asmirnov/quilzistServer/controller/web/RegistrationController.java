@@ -1,4 +1,4 @@
-package com.asmirnov.quilzistServer.controller;
+package com.asmirnov.quilzistServer.controller.web;
 
 import com.asmirnov.quilzistServer.model.Role;
 import com.asmirnov.quilzistServer.model.User;

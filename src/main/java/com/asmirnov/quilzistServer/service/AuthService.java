@@ -28,7 +28,7 @@ public class AuthService {
     public AuthResponseDTO userAuthentication(String username, String password) {
         try {
             User user = userRepo.findByUsernameAndPassword(username, password);
-            if(authResponseDTO.getUser() == null) {
+            if(user == null) {
                 authResponseDTO.setErrorCode(1);
             }else{
                 setUserToResponse(user);
@@ -37,7 +37,7 @@ public class AuthService {
             e.printStackTrace();
             authResponseDTO.setErrorCode(9,e.getMessage());
         }
-        log.debug("User authentication.  ",authResponseDTO.toString());
+        log.debug("User authentication. {}", authResponseDTO.toString());
         return authResponseDTO;
     }
 
@@ -51,7 +51,7 @@ public class AuthService {
         }else {
             authResponseDTO.setErrorCode(3);
         }
-        log.debug("Create new user.  ",authResponseDTO.toString());
+        log.debug("Create new user. {}", authResponseDTO.toString());
         return authResponseDTO;
     }
 

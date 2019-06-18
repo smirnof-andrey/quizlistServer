@@ -5,6 +5,7 @@ import com.asmirnov.quilzistServer.model.Role;
 import com.asmirnov.quilzistServer.model.User;
 import com.asmirnov.quilzistServer.repository.UserRepo;
 import com.asmirnov.quilzistServer.security.TokenHandler;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 @Service
+@NoArgsConstructor
 @Slf4j
 public class AuthService {
 
@@ -21,11 +23,8 @@ public class AuthService {
 
     private AuthResponseDTO authResponseDTO;
 
-    public AuthService() {
-        authResponseDTO = new AuthResponseDTO();
-    }
-
     public AuthResponseDTO userAuthentication(String username, String password) {
+        authResponseDTO = new AuthResponseDTO();
         try {
             User user = userRepo.findByUsernameAndPassword(username, password);
             if(user == null) {
@@ -42,6 +41,8 @@ public class AuthService {
     }
 
     public AuthResponseDTO createNewUser(User user) {
+        authResponseDTO = new AuthResponseDTO();
+
         User userFromDb = userRepo.findByUsername(user.getUsername());
 
         if(userFromDb == null){
@@ -56,7 +57,7 @@ public class AuthService {
     }
 
     public void setUserToResponse(User user){
-        authResponseDTO.setUser(userRepo.save(user));
+        authResponseDTO.setUser(user);
         createNewToken();
     }
 

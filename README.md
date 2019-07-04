@@ -11,7 +11,6 @@ Also, this service can be useful for all people who study anything.
 
 ## Nuts and bolts
 - Develop with Spring Boot
-- Provides RESTful API
+- Provide RESTful API
 - Stateless user authentication with JWT
 - MySQL
-- Google Guava for encode and decode exchanged data
